@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "888398476766",
+    "project_id": "campusbite-ce88f",
+    "storage_bucket": "campusbite-ce88f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:888398476766:android:98af1d369e796d9b8d194f",
+        "android_client_info": {
+          "package_name": "com.example.admincampusbite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0_CF9Frcw1ww4vDaj4FTRWxYQXXvrloA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

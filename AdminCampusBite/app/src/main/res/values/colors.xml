@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Basic Colors -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="startcolor">#53E88B</color>
+    <color name="endcolor">#15BE77</color>
+
+    <!-- App Theme Colors -->
+    <color name="green">#53E88B</color> <!-- Fresh Green (Success) -->
+    <color name="yellow">#FFB74D</color> <!-- Mustard Yellow (Accent) -->
+    <color name="red">#FF4C4C</color> <!-- Tomato Red (Primary) -->
+    <color name="deep_orange">#FF7043</color> <!-- Button Hover -->
+    <color name="amber">#FFC107</color> <!-- Warning Color -->
+    <color name="error_red">#D32F2F</color> <!-- Error Color -->
+
+    <!-- Text Colors -->
+    <color name="text_primary">#2E2E2E</color>
+    <color name="text_secondary">#757575</color>
+
+    <!-- Backgrounds -->
+    <color name="background">#FFF8E1</color>
+    <color name="card_background">#FFFFFFFF</color>
+
+</resources>
