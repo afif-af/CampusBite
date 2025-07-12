@@ -20,6 +20,7 @@ import com.example.admincampusbite.util.FileUtils
 class AddItemActivity : AppCompatActivity() {
 
     private lateinit var foodName: String
+
     private  lateinit var foodImage: String
     private  lateinit var foodPrice: String
     private  lateinit var foodDescription: String
@@ -46,7 +47,7 @@ class AddItemActivity : AppCompatActivity() {
         //firebase database instance
         database= FirebaseDatabase.getInstance()
 
-        binding.atItemButton.setOnClickListener {
+        binding.addItem.setOnClickListener {
             //get data from filed
             foodName=binding.foodName.text.toString().trim()
             foodPrice=binding.foodPrice.text.toString().trim()
@@ -54,21 +55,16 @@ class AddItemActivity : AppCompatActivity() {
             foodIngredient=binding.foodIngredient.text.toString().trim()
 
 
-            if( foodName.isBlank()|| foodPrice.isBlank()||foodDescription.isBlank()||foodIngredient.isBlank())
-            {
+            if (foodName.isNotBlank() && foodPrice.isNotBlank() && foodDescription.isNotBlank() && foodIngredient.isNotBlank()) {
                 uploadData()
-                Toast.makeText(this,"Item Add Successfully", Toast.LENGTH_SHORT).show()
-                finish()
+            } else {
+                Toast.makeText(this, "Fill all details", Toast.LENGTH_SHORT).show()
             }
-            else
-            {
-                Toast.makeText(this,"Fill all details ", Toast.LENGTH_SHORT).show()
 
-            }
 
 
         }
-        binding.selectedImage.setOnClickListener {
+        binding.selectImage.setOnClickListener {
             pickImage.launch("image/*")
         }
 
@@ -122,6 +118,7 @@ class AddItemActivity : AppCompatActivity() {
 
     private val pickImage = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri != null) {
+            foodImageUri=uri
             binding.selectedImage.setImageURI(uri)
         }
     }

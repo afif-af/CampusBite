@@ -1,17 +1,21 @@
 package com.example.admincampusbite.adapter
 
+import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.admincampusbite.R
 import com.example.admincampusbite.databinding.ItemItemBinding
+import com.example.admincampusbite.model.AllMenu
 
-class AddItemAdapter(
-    private val menuItemName: MutableList<String>,
-    private val menuItemPrice: MutableList<String>,
-    private val menuItemImage: MutableList<Int>
-) : RecyclerView.Adapter<AddItemAdapter.AddItemViewHolder>() {
+class MenuItemAdapter(
+    private val context: Context,
+    private val menuList: ArrayList<AllMenu>
+) : RecyclerView.Adapter<MenuItemAdapter.AddItemViewHolder>() {
 
-    private val itemQuantities = MutableList(menuItemName.size) { 1 } // MutableList to support delete
+    private val itemQuantities = MutableList(menuList.size) { 1 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddItemViewHolder {
         val binding = ItemItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,16 +26,30 @@ class AddItemAdapter(
         holder.bind(position)
     }
 
-    override fun getItemCount(): Int = menuItemName.size
+    override fun getItemCount(): Int = menuList.size
 
     inner class AddItemViewHolder(private val binding: ItemItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(position: Int) {
+            val menuItem = menuList[position]
+            val imageString = menuItem.imageUrl
+
+            if (!imageString.isNullOrEmpty()) {
+                val uri = Uri.parse(imageString)
+                Glide.with(context)
+                    .load(uri)
+                    .into(binding.orderFoodImage)
+            } else {
+                Glide.with(context)
+                    .load(R.drawable.placeholder_image)
+                    .into(binding.orderFoodImage)
+            }
+
             binding.apply {
-                nameCustomer.text = this@AddItemAdapter.menuItemName[position]
-                orderFoodQuantity.text = this@AddItemAdapter.menuItemPrice[position]
-                orderFoodImage.setImageResource(this@AddItemAdapter.menuItemImage[position])
+                foodName.text = menuItem.name ?: "No Name"
+                foodPrice.text = "৳ ${menuItem.price ?: "N/A"}"
+//
 
                 cartItemQuantity.text = itemQuantities[position].toString()
 
@@ -53,12 +71,10 @@ class AddItemAdapter(
         }
 
         private fun deleteItem(position: Int) {
-            menuItemName.removeAt(position)
-            menuItemPrice.removeAt(position)
-            menuItemImage.removeAt(position)
-            itemQuantities.removeAt(position) // ✅ Fix: also remove quantity
+            menuList.removeAt(position)
+            itemQuantities.removeAt(position)
             notifyItemRemoved(position)
-            notifyItemRangeChanged(position, menuItemName.size)
+            notifyItemRangeChanged(position, menuList.size)
         }
 
         private fun increaseQuantity(position: Int) {

@@ -41,13 +41,14 @@
                 android:id="@+id/nameCustomer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/yeonsungregular"
-                android:text="spacy food"
+                android:text="name Customer"
                 app:layout_constraintBottom_toTopOf="@+id/orderFoodQuantity"
                 app:layout_constraintStart_toEndOf="@+id/orderFoodImage"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/orderFoodQuantity"

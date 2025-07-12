@@ -27,7 +27,7 @@
                 android:layout_width="41dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:background="@android:color/transparent"
                 android:contentDescription="Back"
                 android:scaleType="centerCrop"
@@ -127,15 +127,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardView7" />
 
-            <TextView
+            <EditText
                 android:id="@+id/foodDescription"
                 android:layout_width="338dp"
                 android:layout_height="96dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/latoregular"
-                android:text="Short description Lorem ipsum dolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore etdolor sit amet, consectetur adipiscing elit,sed do eiusmod tempor incididunt ut labore etdolore magna aliqua. Ut enim ad"
+                android:gravity="top"
+                android:hint="Add Description"
+                android:inputType="textMultiLine"
+                android:textColor="@color/black"
+                android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView27" />
@@ -154,21 +159,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/foodDescription" />
 
-            <TextView
+            <EditText
                 android:id="@+id/foodIngredient"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="40dp"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/latoregular"
-                android:text="Strowberry \nCream \nwheat \nMill \Sweet"
+                android:gravity="top"
+                android:hint="Add Ingredients"
+                android:inputType="textMultiLine"
                 android:textColor="@color/black"
-                app:layout_constraintEnd_toEndOf="@+id/textView35"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView35" />
 
+
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/atItemButton"
+                android:id="@+id/addItem"
                 android:layout_width="157dp"
                 android:layout_height="57dp"
                 android:layout_marginBottom="32dp"
