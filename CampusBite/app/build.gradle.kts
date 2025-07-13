@@ -58,6 +58,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.github.denzcoskun:ImageSlideshow:0.1.2")
 

@@ -1,4 +1,4 @@
-package com.example.campusbite.Fragment
+package com.example.campusbite
 
 import android.graphics.Color
 import android.os.Bundle
@@ -9,43 +9,19 @@ import android.widget.AutoCompleteTextView
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.campusbite.R
 import com.example.campusbite.adapter.MenuAdapter
 import com.example.campusbite.databinding.FragmentSearchBinding
+import com.example.campusbite.model.MenuItem
+import com.google.firebase.database.*
 
 class SearchFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
     private lateinit var adapter: MenuAdapter
+    private lateinit var databaseReference: DatabaseReference
 
-    private val originalMenuFoodName = listOf(
-        "Burger", "Sandwich", "Samosa",
-        "Biryani", "Sandwich", "Item", "Burger",
-        "Sandwich", "Samosa", "Biryani",
-        "Sandwich", "Item"
-    )
-    private val originalMenuItemPrice = listOf(
-        "10", "100", "20", "200", "30", "300",
-        "10", "100", "20", "200", "30", "300"
-    )
-    private val originalImage = listOf(
-        R.drawable.menuphoto1,
-        R.drawable.menuphoto2,
-        R.drawable.menuphoto3,
-        R.drawable.menuphoto4,
-        R.drawable.menuphoto1,
-        R.drawable.menuphoto2,
-        R.drawable.menuphoto1,
-        R.drawable.menuphoto2,
-        R.drawable.menuphoto3,
-        R.drawable.menuphoto4,
-        R.drawable.menuphoto1,
-        R.drawable.menuphoto2
-    )
-
-    private val filteredMenuFoodName = mutableListOf<String>()
-    private val filteredMenuItemPrice = mutableListOf<String>()
-    private val filteredMenuImage = mutableListOf<Int>()
+    private val allMenuItems = mutableListOf<MenuItem>()
+    private val filteredMenuItems = mutableListOf<MenuItem>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,39 +29,50 @@ class SearchFragment : Fragment() {
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-        adapter = MenuAdapter(filteredMenuFoodName, filteredMenuItemPrice, filteredMenuImage,requireContext())
+        // Firebase DB reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("menu")
+
+        // RecyclerView setup
+        adapter = MenuAdapter(filteredMenuItems, requireContext())
         binding.menuRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.menuRecyclerView.adapter = adapter
 
         setupSearchView()
-        showAllMenu()
+        fetchMenuItemsFromFirebase()
 
         return binding.root
     }
 
-    private fun showAllMenu() {
-        filteredMenuFoodName.clear()
-        filteredMenuItemPrice.clear()
-        filteredMenuImage.clear()
+    private fun fetchMenuItemsFromFirebase() {
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                allMenuItems.clear()
+                for (data in snapshot.children) {
+                    val item = data.getValue(MenuItem::class.java)
+                    item?.let { allMenuItems.add(it) }
+                }
 
-        filteredMenuFoodName.addAll(originalMenuFoodName)
-        filteredMenuItemPrice.addAll(originalMenuItemPrice)
-        filteredMenuImage.addAll(originalImage)
+                // Show all items initially
+                filteredMenuItems.clear()
+                filteredMenuItems.addAll(allMenuItems)
+                adapter.notifyDataSetChanged()
+            }
 
-        adapter.notifyDataSetChanged()
+            override fun onCancelled(error: DatabaseError) {
+                // TODO: handle error e.g. show Toast or Log
+            }
+        })
     }
 
     private fun setupSearchView() {
-        // Make sure searchView is expanded and clickable
         binding.searchView.isIconified = false
-        binding.searchView.clearFocus()  // Prevent auto keyboard open initially
+        binding.searchView.clearFocus()
 
         binding.searchView.setOnClickListener {
             binding.searchView.isIconified = false
             binding.searchView.requestFocusFromTouch()
         }
 
-        // Set query text listener
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 filterMenuItems(query)
@@ -98,7 +85,6 @@ class SearchFragment : Fragment() {
             }
         })
 
-        // Force query hint and text color setup
         val searchAutoComplete = binding.searchView.findViewById<AutoCompleteTextView>(
             androidx.appcompat.R.id.search_src_text
         )
@@ -108,18 +94,15 @@ class SearchFragment : Fragment() {
     }
 
     private fun filterMenuItems(query: String?) {
-        filteredMenuFoodName.clear()
-        filteredMenuItemPrice.clear()
-        filteredMenuImage.clear()
-
-        originalMenuFoodName.forEachIndexed { index, foodName ->
-            if (foodName.contains(query.toString(), ignoreCase = true)) {
-                filteredMenuFoodName.add(foodName)
-                filteredMenuItemPrice.add(originalMenuItemPrice[index])
-                filteredMenuImage.add(originalImage[index])
-            }
+        filteredMenuItems.clear()
+        if (query.isNullOrBlank()) {
+            filteredMenuItems.addAll(allMenuItems)
+        } else {
+            val lowerQuery = query.trim().lowercase()
+            filteredMenuItems.addAll(allMenuItems.filter {
+                it.name?.lowercase()?.contains(lowerQuery) == true
+            })
         }
-
         adapter.notifyDataSetChanged()
     }
 }

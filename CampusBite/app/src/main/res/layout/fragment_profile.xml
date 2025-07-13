@@ -1,184 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/profileLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="2dp"
     android:background="@color/white"
     tools:context=".Fragment.ProfileFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Name Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/profileedittextshape"
-            android:elevation="2dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp">
-
-            <TextView
-                android:id="@+id/tvName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/yeonsungregular"
-                android:text="Name"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/etName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="48dp"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/latoregular"
-                android:inputType="textPersonName"
-                android:text="Name" />
-        </LinearLayout>
-
-        <!-- Address Field -->
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/profileedittextshape"
-            android:elevation="2dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/tvAddress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/yeonsungregular"
-                android:text="Address"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+            <!-- Name Field -->
+            <LinearLayout
+                android:id="@+id/nameField"
+                android:layout_width="0dp"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:background="@drawable/profileedittextshape"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="6dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <EditText
-                android:id="@+id/etAddress"
+                <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/yeonsungregular"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/etName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/latoregular"
+                    android:inputType="textPersonName"
+                    android:text="Name" />
+            </LinearLayout>
+
+            <!-- Address -->
+            <LinearLayout
+                android:id="@+id/addressField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/latoregular"
-                android:inputType="textMultiLine"
-                android:lines="4"
-                android:text="Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual." />
-        </LinearLayout>
+                android:orientation="horizontal"
+                android:background="@drawable/profileedittextshape"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="6dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/nameField"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Email Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="10dp"
-            android:background="@drawable/profileedittextshape"
-            android:elevation="2dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp">
+                <TextView
+                    android:id="@+id/tvAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Address"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/yeonsungregular"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/yeonsungregular"
-                android:text="Email"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/latoregular"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:minHeight="60dp"
+                    android:text="Lorem ipsum dolor sit amet..." />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/etEmail"
+            <!-- Email -->
+            <LinearLayout
+                android:id="@+id/emailField"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/latoregular"
-                android:inputType="textEmailAddress"
-                android:text="example@gmail.com" />
-        </LinearLayout>
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:background="@drawable/profileedittextshape"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="6dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/addressField"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Phone Field -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/profileedittextshape"
-            android:elevation="2dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingStart="6dp"
-            android:paddingEnd="6dp">
+                <TextView
+                    android:id="@+id/tvEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Email"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/yeonsungregular"
+                    android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvPhone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/yeonsungregular"
-                android:text="Phone"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/latoregular"
+                    android:inputType="textEmailAddress"
+                    android:text="example@gmail.com" />
+            </LinearLayout>
 
-            <EditText
-                android:id="@+id/etPhone"
+            <!-- Phone -->
+            <LinearLayout
+                android:id="@+id/phoneField"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:minHeight="48dp"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"
-                android:fontFamily="@font/latoregular"
-                android:inputType="phone"
-                android:text="0185*******" />
-        </LinearLayout>
-    </LinearLayout>
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:background="@drawable/profileedittextshape"
+                android:elevation="2dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="6dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintTop_toBottomOf="@id/emailField"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Save Button -->
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button3"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_gravity="bottom"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/proceedbuttonhape"
-            android:elevation="5dp"
-            android:fontFamily="@font/yeonsungregular"
-            android:text="Save Information"
-            android:textAllCaps="false"
-            android:textColor="@color/green"
-            android:textSize="20sp" />
+                <TextView
+                    android:id="@+id/tvPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Phone"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/yeonsungregular"
+                    android:textStyle="bold" />
 
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/latoregular"
+                    android:inputType="phone"
+                    android:text="0185*******" />
+            </LinearLayout>
 
-</FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <!-- Save Button -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button3"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="72dp"
+        android:background="@drawable/proceedbuttonhape"
+        android:fontFamily="@font/yeonsungregular"
+        android:text="Save Information"
+        android:textAllCaps="false"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/logout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:background="@color/white"
+        android:text="LogOut"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
