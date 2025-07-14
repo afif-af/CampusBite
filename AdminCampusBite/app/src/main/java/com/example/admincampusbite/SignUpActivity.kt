@@ -50,8 +50,8 @@ class SignUpActivity : AppCompatActivity() {
         binding.alreadyhavebutton.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
-
         }
+
         binding.createUserButton.setOnClickListener {
             //get text from edit text
             userName = binding.userName.text.toString().trim()
@@ -62,7 +62,8 @@ class SignUpActivity : AppCompatActivity() {
             if(userName.isBlank() || nameOfCanteen.isBlank()|| email.isBlank()||password.isBlank())
             {
                 Toast.makeText(this,"please fill all details", Toast.LENGTH_SHORT).show()
-            }else
+            }
+            else
             {
                 createAccount(email,password)
             }
@@ -79,7 +80,8 @@ class SignUpActivity : AppCompatActivity() {
         auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener {
             task -> if(task.isSuccessful)
             {
-                Toast.makeText(this,"Account Create Sucessfully",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Account Create Successfully",Toast.LENGTH_SHORT).show()
+
                 saveUserData()
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)

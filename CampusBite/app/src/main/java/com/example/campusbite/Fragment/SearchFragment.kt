@@ -1,4 +1,4 @@
-package com.example.campusbite
+package com.example.campusbite.Fragment
 
 import android.graphics.Color
 import android.os.Bundle
