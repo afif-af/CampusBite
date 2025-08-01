@@ -25,7 +25,7 @@
         android:theme="@style/Theme.CampusBite"
         tools:targetApi="31">
         <activity
-            android:name=".DetailsActiviy"
+            android:name=".DetailsActivity"
             android:exported="false" />
         <activity
             android:name=".PayOutActivity"

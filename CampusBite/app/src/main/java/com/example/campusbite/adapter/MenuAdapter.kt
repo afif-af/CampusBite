@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.campusbite.DetailsActiviy
+import com.example.campusbite.DetailsActivity
 import com.example.campusbite.databinding.MenuItemBinding
 import com.example.campusbite.model.MenuItem
 
 class MenuAdapter(
-    private val menuItems: MutableList<MenuItem>,
+    private val menuItems: List<MenuItem>,
     private val requireContext: Context
 ) : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>() {
 
@@ -41,7 +41,7 @@ class MenuAdapter(
 
         private fun openDetailActivity(position: Int) {
             val item = menuItems[position]
-            val intent = Intent(requireContext, DetailsActiviy::class.java).apply {
+            val intent = Intent(requireContext, DetailsActivity::class.java).apply {
                 putExtra("MenuItemName", item.name)
                 putExtra("MenuItemImage", item.imageUrl)
                 putExtra("MenuItemDescription", item.description)
@@ -50,6 +50,7 @@ class MenuAdapter(
             }
             requireContext.startActivity(intent)
         }
+
 
         fun bind(position: Int) {
             val item = menuItems[position]

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.campusbite.DetailsActiviy
+import com.example.campusbite.DetailsActivity
 import com.example.campusbite.databinding.PopulerItemBinding
 
 class PopulerAdapter (private val items: List<String>,
@@ -30,7 +30,7 @@ class PopulerAdapter (private val items: List<String>,
         holder.bind(item,price,images)
 
         holder.itemView.setOnClickListener {
-            var intent= Intent(requireContext, DetailsActiviy::class.java)
+            var intent= Intent(requireContext, DetailsActivity::class.java)
             intent.putExtra("MenuItemName",item)
             intent.putExtra("MenuItemImage",images)
             requireContext.startActivity(intent)
