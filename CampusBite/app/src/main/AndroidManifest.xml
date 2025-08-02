@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- Add permissions here -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-
-    <!-- Declare camera hardware as optional -->
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
-
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- Declare camera hardware as optional -->
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <application
         android:allowBackup="true"
@@ -24,6 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CampusBite"
         tools:targetApi="31">
+
+
+        <!-- Google Maps API Key -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBoKv7xEPG7EvkxEKX0J8X0o_8By7fdRUo" />
+
+        <activity
+            android:name=".MapPickerActivity"
+            android:exported="false" />
         <activity
             android:name=".DetailsActivity"
             android:exported="false" />
@@ -38,9 +45,10 @@
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -49,18 +57,18 @@
             android:exported="false" />
         <activity
             android:name=".Splash_Screen"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustPan">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
         <meta-data

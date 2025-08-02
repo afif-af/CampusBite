@@ -32,4 +32,14 @@ class MainActivity : AppCompatActivity() {
 
 
     }
+    // In MainActivity.kt
+//    override fun onResume() {
+//        super.onResume()
+//        val goToHistory = intent.getBooleanExtra("goToHistory", false)
+//        if (goToHistory) {
+//            bottomNavigationView.selectedItemId = R.id.historyFragment
+//        }
+//    }
+
+
 }
