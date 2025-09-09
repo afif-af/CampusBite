@@ -7,132 +7,116 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.campusbite.LoginActivity
 import com.example.campusbite.databinding.FragmentProfileBinding
+import com.example.campusbite.model.UserModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 class ProfileFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
-    private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance().reference
-    }
+    private val auth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentProfileBinding.inflate(inflater, container, false)
+
+        // Set user data on fragment load
+        setUserData()
+
+        binding.apply {
+            // Disable fields initially
+            etName.isEnabled = false
+            etEmail.isEnabled = false
+            etAddress.isEnabled = false
+            etPhone.isEnabled = false
+
+            // Edit button click → toggle enable state
+            editButton.setOnClickListener {
+                etName.isEnabled = !etName.isEnabled
+                etEmail.isEnabled = !etEmail.isEnabled
+                etAddress.isEnabled = !etAddress.isEnabled
+                etPhone.isEnabled = !etPhone.isEnabled
+            }
+        }
+
+        // Save/Update button click
+        binding.saveInformation.setOnClickListener {
+            val name = binding.etName.text.toString().trim()
+            val email = binding.etEmail.text.toString().trim()
+            val address = binding.etAddress.text.toString().trim()
+            val phone = binding.etPhone.text.toString().trim()
+
+            if (name.isEmpty() || email.isEmpty() || address.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+            } else {
+                updateUserData(name, email, address, phone)
+            }
+        }
+
+        // Logout button click
+        binding.logout.setOnClickListener {
+            logoutUser()
+        }
+
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun updateUserData(name: String, email: String, address: String, phone: String) {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val userReference = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
 
-        loadUserData()
+            val userData = hashMapOf(
+                "name" to name,
+                "email" to email,
+                "address" to address,
+                "phone" to phone
+            )
 
-        binding.button3.setOnClickListener {
-            saveUserData()
-        }
-
-        binding.logout.setOnClickListener {
-            auth.signOut()
-            val intent = Intent(requireContext(), LoginActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+            userReference.setValue(userData)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Updated successfully", Toast.LENGTH_SHORT).show()
+                }
+                .addOnFailureListener {
+                    Toast.makeText(requireContext(), "Failed to update", Toast.LENGTH_SHORT).show()
+                }
         }
     }
 
-    private fun loadUserData() {
-        val userId = auth.currentUser?.uid ?: return
-        val userRef = database.child("users").child(userId)
+    private fun setUserData() {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val userReference = FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(userId)
 
-        userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val name = snapshot.child("name").getValue(String::class.java)
-                val address = snapshot.child("address").getValue(String::class.java)
-                val email = snapshot.child("email").getValue(String::class.java)
-                val phone = snapshot.child("phone").getValue(String::class.java)
+            userReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val userProfile = snapshot.getValue(UserModel::class.java)
+                    userProfile?.let {
+                        binding.etName.setText(it.name)
+                        binding.etEmail.setText(it.email)
+                        binding.etAddress.setText(it.address)
+                        binding.etPhone.setText(it.phone)
+                    }
+                }
 
-                binding.etName.setText(name)
-                binding.etAddress.setText(address)
-                binding.etEmail.setText(email)
-                binding.etPhone.setText(phone)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(requireContext(), "Failed to load data", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onCancelled(error: DatabaseError) {
+                    Toast.makeText(requireContext(), "Failed to load user data", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
     }
 
-    private fun saveUserData() {
-        val userId = auth.currentUser?.uid ?: return
-        val userRef = database.child("users").child(userId)
-
-        val name = binding.etName.text.toString()
-        val address = binding.etAddress.text.toString()
-        val email = binding.etEmail.text.toString()
-        val phone = binding.etPhone.text.toString()
-
-        val userMap = mapOf(
-            "name" to name,
-            "address" to address,
-            "email" to email,
-            "phone" to phone
-        )
-
-        userRef.setValue(userMap).addOnSuccessListener {
-            Toast.makeText(requireContext(), "Information saved", Toast.LENGTH_SHORT).show()
-        }.addOnFailureListener {
-            Toast.makeText(requireContext(), "Failed: ${it.message}", Toast.LENGTH_SHORT).show()
-        }
+    private fun logoutUser() {
+        auth.signOut()
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        Toast.makeText(requireContext(), "Logged out successfully", Toast.LENGTH_SHORT).show()
     }
 }
-
-
-
-//import android.content.Intent
-//import android.os.Bundle
-//import androidx.fragment.app.Fragment
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.Button
-//import com.example.campusbite.LoginActivity
-//import com.example.campusbite.R
-//import com.google.firebase.auth.FirebaseAuth
-//
-//class ProfileFragment : Fragment() {
-//
-//    private lateinit var auth: FirebaseAuth
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        auth = FirebaseAuth.getInstance()
-//    }
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return inflater.inflate(R.layout.fragment_profile, container, false)
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        val logoutButton = view.findViewById<Button>(R.id.logout)
-//        logoutButton.setOnClickListener {
-//            auth.signOut()
-//
-//            val intent = Intent(requireContext(), LoginActivity::class.java)
-//            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            startActivity(intent)
-//        }
-//    }
-//}

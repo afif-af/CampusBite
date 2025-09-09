@@ -13,10 +13,7 @@
         android:id="@+id/searchFragment"
         android:icon="@drawable/search"
         />
-    <item android:title="History"
-        android:id="@+id/historyFragment"
-        android:icon="@drawable/list"
-        />
+
     <item android:title="Profile"
         android:id="@+id/profileFragment"
         android:icon="@drawable/user_01"

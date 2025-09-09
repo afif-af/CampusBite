@@ -1,52 +1,96 @@
 package com.example.admincampusbite
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.admincampusbite.adapter.DeliveryAdapter
 import com.example.admincampusbite.adapter.PendingOrderAdapter
 import com.example.admincampusbite.databinding.ActivityPendingOrderBinding
+import com.example.admincampusbite.model.OrderDetails
+import com.google.firebase.database.*
 
-class PendingOrderActivity : AppCompatActivity() {
+class PendingOrderActivity : AppCompatActivity(), PendingOrderAdapter.OnItemClicked{
 
-    private val binding: ActivityPendingOrderBinding by lazy {
-        ActivityPendingOrderBinding.inflate(layoutInflater)
-    }
+    private lateinit var binding: ActivityPendingOrderBinding
+    private var listOfName: MutableList<String> = mutableListOf()
+    private var listOfTotalPrice: MutableList<String> = mutableListOf()
+    private var listOfImageFirtFoodOrder: MutableList<String> = mutableListOf()
+    private var listOfOrderItem: MutableList<OrderDetails> = mutableListOf()
+    private lateinit var database: FirebaseDatabase
+    private lateinit var databaseOrderDetails: DatabaseReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        binding = ActivityPendingOrderBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // initialization of database
+        database = FirebaseDatabase.getInstance()
+        // initialize dataRef
+        databaseOrderDetails = database.reference.child("OrderDetails")
+        getOrdersDetails()
 
         binding.backButton5.setOnClickListener {
             onBackPressed()
         }
+    }
 
-        val orderCustomerName=arrayListOf(
-            "Jone Doe",
-            "Jone Smith",
-            "Mike jonson"
-        )
-        val orderQuantity=arrayListOf(
-            "8",
-            "85",
-            "2"
-        )
-        val orderFoodImage=arrayListOf(
-            R.drawable.menuphoto1,
-            R.drawable.menuphoto3,
-            R.drawable.menuphoto2
-        )
+    private fun getOrdersDetails() {
+        // retrieve orderDetails data from firebase
+        databaseOrderDetails.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // clear old data first
+                listOfOrderItem.clear()
+                listOfName.clear()
+                listOfTotalPrice.clear()
+                listOfImageFirtFoodOrder.clear()
 
-        val adapter= PendingOrderAdapter(orderCustomerName,orderQuantity,orderFoodImage, this)
-        binding.pendingOrderRecyclerview.adapter=adapter
-        binding.pendingOrderRecyclerview.layoutManager= LinearLayoutManager(this)
+                for (orderSnapshot in snapshot.children) {
+                    val orderDetails = orderSnapshot.getValue(OrderDetails::class.java)
+                    orderDetails?.let {
+                        listOfOrderItem.add(it)
+                    }
+                }
+                addDataToListForRecyclerView()
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                // Optional: Handle error
+            }
+        })
+    }
 
+    private fun addDataToListForRecyclerView() {
+        for (orderItem in listOfOrderItem) {
+            // add to respective list for populating the recyclerview
+            orderItem.userName?.let { listOfName.add(it) }
+            orderItem.totalPrice?.let { listOfTotalPrice.add(it) }
 
+            // safely add first food image if available
+            if (orderItem.foodImage.isNotEmpty()) {
+                val firstImage = orderItem.foodImage[0]
+                if (firstImage.isNotEmpty()) {
+                    listOfImageFirtFoodOrder.add(firstImage)
+                }
+            }
+        }
+        setAdapter()
+    }
 
+    private fun setAdapter() {
+        binding.pendingOrderRecyclerview.layoutManager = LinearLayoutManager(this)
+        val adapter =
+            PendingOrderAdapter(this, listOfName, listOfTotalPrice, listOfImageFirtFoodOrder,this)
+        binding.pendingOrderRecyclerview.adapter = adapter
+    }
+
+    override fun onItemClickListner(position: Int) {
+        val intent= Intent(this,OrderDetailsActivity::class.java)
+        val userOrderDetails= listOfOrderItem[position]
+        intent.putExtra("UserOrderDetails",userOrderDetails)
+        startActivity(intent)
 
     }
 }

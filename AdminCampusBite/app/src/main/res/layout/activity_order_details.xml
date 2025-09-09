@@ -3,49 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    tools:context=".OrderDetailsActivity">
 
-    tools:context=".PayOutActivity">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-
-        <ImageButton
-            android:id="@+id/backButton"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:contentDescription="back"
+            app:layout_constraintBottom_toTopOf="@+id/textView23"
+            app:layout_constraintTop_toTopOf="@+id/textView23">
 
-            android:minWidth="48dp"
-            android:minHeight="48dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@android:color/transparent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/arrow_circle_left"
-            android:text="Button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/backButton"
+                android:layout_width="38dp"
+                android:layout_height="47dp"
 
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/yeonsungregular"
-        android:text="Edit"
-        android:layout_gravity="center"
-        android:textColor="@color/green"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="82dp" />
+                android:layout_marginStart="24dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="back"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/arrow_circle_left"
+                android:text="Button"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/textView23"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/yeonsungregular"
+                android:text="Order Details"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -71,7 +74,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -113,7 +116,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,7 +156,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold" />
 
-            <EditText
+            <TextView
                 android:id="@+id/phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -180,79 +183,50 @@
             android:padding="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView33">
+            app:layout_constraintTop_toBottomOf="@+id/textView34">
 
             <TextView
-                android:id="@+id/textView30"
-                android:layout_width="60dp"
+                android:id="@+id/textView"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/yeonsungregular"
                 android:paddingLeft="8dp"
-                android:text="Payment Method"
-                android:textColor="@color/black" />
-
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/cashondelivery1" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView32">
+                android:text="Total Amount"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView31"
-                android:layout_width="40dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/latoregular"
-                android:paddingLeft="8dp"
-                android:text="Total Amount"
-                android:textColor="@color/black" />
-
-            <EditText
-                android:id="@+id/totalAmount"
+                android:id="@+id/totalPay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:ems="10"
-                android:gravity="end"
-                android:inputType="none"
+                android:gravity="center"
+
+                android:textSize="20sp"
+                android:inputType="text"
                 android:minHeight="48dp"
-                android:paddingEnd="32dp" />
+                android:textColor="@color/black" />
+
         </LinearLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/orderDetailsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/orderdetailsitem">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/placeMyOrder"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
-        android:elevation="15dp"
-        android:background="@drawable/proceedbuttonhape"
-        android:text="Place my order"
-        android:textColor="@color/green"
-        android:textAllCaps="false"
-        android:fontFamily="@font/yeonsungregular"
-        android:layout_gravity="bottom"/>
+
 
 
 </FrameLayout>

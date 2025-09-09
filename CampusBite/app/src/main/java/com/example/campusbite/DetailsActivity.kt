@@ -20,7 +20,8 @@ class DetailsActivity : AppCompatActivity() {
     private var foodIngredient: String? = null
     private var foodPrice: String? = null
 
-//    private var auth= FirebaseAuth
+
+    private lateinit var auth: FirebaseAuth
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,7 @@ class DetailsActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        auth = FirebaseAuth.getInstance()
         // Intent থেকে data নিচ্ছে
         foodName = intent.getStringExtra("MenuItemName")
         foodDescription = intent.getStringExtra("MenuItemDescription")
@@ -57,29 +59,42 @@ class DetailsActivity : AppCompatActivity() {
             addItemToCart()
         }
     }
+
     private fun addItemToCart() {
-        val auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid ?: return
 
+        //val auth = FirebaseAuth.getInstance()
+        val userId = auth.currentUser?.uid ?:"" //return
         val database = FirebaseDatabase.getInstance().reference
-        val cartRef = database.child("cart").child(userId)
 
-        val cartItem = CartItems(
-            foodName = foodName,
-            foodPrice = foodPrice,
-            foodDescription = foodDescription,
-            foodImage = foodImage,
-            foodQuantity = "1"
-        )
 
-        val itemId = cartRef.push().key ?: return
+//        val cartItem = CartItems(
+//            foodName = foodName,
+//            foodPrice = foodPrice,
+//            foodDescription = foodDescription,
+//            foodImage = foodImage,
+//            foodQuantity = "1"
+//        )
+        val cartItem= CartItems(foodName.toString(), foodPrice.toString(),foodDescription.toString(),foodImage.toString(), 1 )
 
-        cartRef.child(itemId).setValue(cartItem).addOnSuccessListener {
+        database.child("users").child(userId).child("CartItems").push().setValue(cartItem).addOnSuccessListener {
             Toast.makeText(this, "Item added to cart", Toast.LENGTH_SHORT).show()
         }.addOnFailureListener {
             Toast.makeText(this, "Failed to add item: ${it.message}", Toast.LENGTH_SHORT).show()
+
         }
-    }
+}
+
+
+
+
+//        val itemId = cartRef.push().key ?: return
+//
+//        cartRef.child(itemId).setValue(cartItem).addOnSuccessListener {
+//            Toast.makeText(this, "Item added to cart", Toast.LENGTH_SHORT).show()
+//        }.addOnFailureListener {
+//            Toast.makeText(this, "Failed to add item: ${it.message}", Toast.LENGTH_SHORT).show()
+//        }
+}
 
 //    private fun addItemToCart() {
 //        val database: FirebaseDatabase= FirebaseDatabase.getInstance().reference
@@ -97,6 +112,4 @@ class DetailsActivity : AppCompatActivity() {
 //        // save data to cart item to firebase
 //
 //    }
-}
-
 

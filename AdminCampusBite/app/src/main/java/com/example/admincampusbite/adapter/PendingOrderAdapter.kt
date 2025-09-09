@@ -1,20 +1,27 @@
 package com.example.admincampusbite.adapter
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.example.admincampusbite.PendingOrderActivity
 import com.example.admincampusbite.databinding.PendingorderitemBinding
-import java.security.cert.TrustAnchor
 
 class PendingOrderAdapter(
-    private val customerName: ArrayList<String>,
-    private val quantity: ArrayList<String>,
-    private val foodImage: ArrayList<Int>,
-    private val context: Context
+    private val context: Context,
+    private val customerName: MutableList<String>,
+    private val quantity: MutableList<String>,
+    private val foodImage: MutableList<String>,
+    private val itemClicked: PendingOrderActivity,
 ) : RecyclerView.Adapter<PendingOrderAdapter.PrendingOrderViewHolder>() {
 
+    interface OnItemClicked{
+        fun onItemClickListner(position: Int)
+
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -37,7 +44,10 @@ class PendingOrderAdapter(
             binding.apply {
                 nameCustomer.text = customerName[position]
                 orderFoodQuantity.text = quantity[position]
-                orderFoodImage.setImageResource(foodImage[position])
+
+                val uriString=foodImage[position]
+                val uri= Uri.parse(uriString)
+                Glide.with(context).load(uri).into(orderFoodImage)
 
                 orderAcceptButton.apply {
                     if(!isAccepted)
@@ -66,9 +76,11 @@ class PendingOrderAdapter(
 
 
                     }
+                    itemView.setOnClickListener {
+                        itemClicked.onItemClickListner(position)
+                    }
                 }
             }
-
         }
         private  fun showTost(message: String)
         {
