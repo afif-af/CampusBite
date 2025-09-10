@@ -3,6 +3,7 @@ package com.example.admincampusbite
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.admincampusbite.adapter.OrderDetailsAdapter
 import com.example.admincampusbite.databinding.ActivityOrderDetailsBinding
 import com.example.admincampusbite.model.OrderDetails
 
@@ -45,8 +46,6 @@ class OrderDetailsActivity : AppCompatActivity() {
             setUserDetail()
             setAdapter()
         }
-
-
     }
 
     private fun setAdapter() {

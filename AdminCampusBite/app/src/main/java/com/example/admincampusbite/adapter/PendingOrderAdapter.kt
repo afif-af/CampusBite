@@ -20,8 +20,12 @@ class PendingOrderAdapter(
 
     interface OnItemClicked{
         fun onItemClickListner(position: Int)
+        fun onItemAcceptedClickListner(position: Int)
+        fun onItemDispatchClickListner(position: Int)
+//        fun deleteThisItemFromOrderDetails(dispatchItemPushKey: String)
 
     }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -64,13 +68,14 @@ class PendingOrderAdapter(
                             text="Dispatch"
                             isAccepted= true
                             showTost("Order is Accepted")
-
+                            itemClicked.onItemAcceptedClickListner(position)
                         }
                         else
                         {
-                            customerName.removeAt(adapterPosition)
-                            notifyItemRemoved(adapterPosition)
+                            customerName.removeAt(position)
+                            notifyItemRemoved(position)
                             showTost("Order is Dispatch")
+                            itemClicked.onItemDispatchClickListner(position)
 
                         }
 

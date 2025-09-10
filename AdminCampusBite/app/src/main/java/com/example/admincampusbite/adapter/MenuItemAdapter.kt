@@ -9,12 +9,14 @@ import com.bumptech.glide.Glide
 import com.example.admincampusbite.R
 import com.example.admincampusbite.databinding.ItemItemBinding
 import com.example.admincampusbite.model.AllMenu
+import com.google.firebase.database.DatabaseReference
 
 class MenuItemAdapter(
     private val context: Context,
-    private val menuList: ArrayList<AllMenu>
+    private val menuList: ArrayList<AllMenu>,
+    databaseReference: DatabaseReference,
+    private val onDeleteClickListener:(position: Int)-> Unit
 ) : RecyclerView.Adapter<MenuItemAdapter.AddItemViewHolder>() {
-
     private val itemQuantities = MutableList(menuList.size) { 1 }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddItemViewHolder {
@@ -50,7 +52,6 @@ class MenuItemAdapter(
                 foodName.text = menuItem.name ?: "No Name"
                 foodPrice.text = "৳ ${menuItem.price ?: "N/A"}"
 //
-
                 cartItemQuantity.text = itemQuantities[position].toString()
 
                 minusButton.setOnClickListener {
@@ -62,10 +63,12 @@ class MenuItemAdapter(
                 }
 
                 deleteButton.setOnClickListener {
-                    val itemPosition = adapterPosition
-                    if (itemPosition != RecyclerView.NO_POSITION) {
-                        deleteItem(itemPosition)
-                    }
+                    onDeleteClickListener(position)
+
+//                    val itemPosition = adapterPosition
+//                    if (itemPosition != RecyclerView.NO_POSITION) {
+//                        deleteItem(itemPosition)
+//                    }
                 }
             }
         }

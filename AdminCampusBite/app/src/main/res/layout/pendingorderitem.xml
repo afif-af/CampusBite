@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:padding="1dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="1dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="6dp"
         app:cardUseCompatPadding="true"
@@ -55,9 +55,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="6dp"
-                android:text="Quantity:"
-                android:textSize="14sp"
+                android:text="Total Pay"
                 android:textColor="@color/black"
+                android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@id/orderFoodImage"
                 app:layout_constraintTop_toBottomOf="@id/nameCustomer" />
 
